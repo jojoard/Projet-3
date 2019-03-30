@@ -1,34 +1,39 @@
 #Libraries importation
-import pygame
-from pygame.locals import *
+#import pygame
+#from pygame.locals import *
+import os
 
+from classes import *
 from functions import *
 from variables import *
 
+os.chdir("C:/Users/Jonathan/OneDrive/OpenClassrooms/Projet 3/Projet-3")
+
+
 #Initialization of PyGame library
-pygame.init()
+#pygame.init()
 
 #Window creation
-game_window = pygame.display.set_mode((window_hor, window_vert))
+#game_window = pygame.display.set_mode((window_hor, window_vert))
 #Icon
-icon = pygame.image.load(icon_img)
-pygame.display.set_icon(icon)
+#icon = pygame.image.load(icon_img)
+#pygame.display.set_icon(icon)
 #Title
-pygame.display.set_caption(window_title)
+#pygame.display.set_caption(window_title)
 
 #Loading background
-window_x = 0
-window_y = 0
+#window_x = 0
+#window_y = 0
 
-while window_x < window_hor:
-	while window_y < window_vert:
-		loading_background(game_window, window_x, window_y)
-		window_y += 40
-	window_x += 40
-	window_y = 0
+#while window_x < window_hor:
+	#while window_y < window_vert:
+		#loading_background(game_window, window_x, window_y)
+		#window_y += 40
+	#window_x += 40
+	#window_y = 0
 
 #Refreshing screen
-pygame.display.flip()
+#pygame.display.flip()
 
 
 

@@ -1,19 +1,20 @@
-"""Variables of the game"""
+"""Constants of the game"""
+
+START_CHAR = "S"
+ARRIVAL_CHAR = "A"
+PATH_CHAR = "."
+WALL_CHAR = "0"
 
 #Paramètres de la fenêtre
-number_hor_sprites = 20
-number_vert_sprites = 16
-sprite_size = 40
-window_hor = number_hor_sprites * sprite_size
-window_vert = number_vert_sprites * sprite_size
+SPRITE_SIZE = 40
 
 #Personnalisation de la fenêtre
-window_title = "Tile Cruisader"
-icon_img = "ressources/MacGyver2.png"
+WINDOW_TITLE = "Tile Cruisader"
+ICON_IMG = "ressources/MacGyver2.png"
 
 #Listes des images du jeu
-welcom_img = "ressources/tile-crusader-logo2.png"
-background_img = "ressources/floor-tiles.png"
-wall_img = "ressources/horizontal.png"
-mcgyver_img = "ressources/MacGyver2.png"
-guard_img = "ressources/Gardien2.png"
+WELCOME_IMG = "ressources/tile-crusader-logo2.png"
+PATH_IMG = "ressources/floor-tiles.png"
+WALL_IMG = "ressources/horizontal.png"
+MCGYVER_IMG = "ressources/MacGyver2.png"
+GUARD_IMG = "ressources/Gardien2.png"
