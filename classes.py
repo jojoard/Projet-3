@@ -13,7 +13,7 @@ class Hero:
 			self.position = new_position
 		
 class Position:
-	"""Give the position of Mc Gyver"""
+	"""Give the position"""
 	def __init__(self, x, y):
 		self.position = (x, y)
 
@@ -62,7 +62,7 @@ class Map:
 		
 		self.path = set()
 		self.start = set()
-		self.end = set()
+		self.arrival = set()
 		self.objects = set()
 
 		self.load_from_file()
@@ -81,7 +81,7 @@ class Map:
 						self.start.add(Position(x, y))
 						self.path.add(Position(x, y))
 					elif col == constants.ARRIVAL_CHAR:
-						self.end.add(Position(x, y))
+						self.arrival.add(Position(x, y))
 						self.path.add(Position(x, y))
 
 

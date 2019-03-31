@@ -4,6 +4,7 @@ import pygame
 from pygame.locals import * 
 
 import variables as constants
+from classes import *
 
 #Loading the game
 def load_pygame():
@@ -16,26 +17,141 @@ def load_pygame():
 	icon = pygame.image.load(constants.ICON_IMG)
 	pygame.display.set_icon(icon)
 	#Title
-	pygame.display.set_caption(constants.WINDOW_TITLE)
+	pygame.display.set_caption(constants.WINDOW_TITLE)	
 
-	#Loading background
-	window_x = 0
-	window_y = 0
+	keep_on = 1
+	while keep_on:
 
-	while window_x < constants.NUMBER_SPRITES * constants.SPRITE_SIZE:
-		while window_y < constants.NUMBER_SPRITES * constants.SPRITE_SIZE:
-			loading_background(game_window, window_x, window_y)
-			window_y += 40
-		window_x += 40
-		window_y = 0
+		#Chargement et affichage de l'écran d'accueil
+		welcome = pygame.image.load(constants.WELCOME_IMG).convert()
+		game_window.blit(welcome, (88,153))
 
-	#Refreshing screen
-	pygame.display.flip()
+		#Rafraichissement
+		pygame.display.flip()
+
+		#On remet ces variables à 1 à chaque tour de boucle
+		keep_on_welcome = 1
+		keep_on_game = 1
+		level = 0
+		
+		while keep_on_welcome:
+			pygame.time.Clock().tick(30)
+			for event in pygame.event.get():
+				if event.type == QUIT or event.type == KEYDOWN and event.key == K_ESCAPE:     #Si un de ces événements est de type QUIT
+					keep_on_game = 0      #On arrête la boucle
+					keep_on_welcome = 0
+					keep_on = 0
+					
+				elif event.type == KEYDOWN:				
+					#Lancement du niveau 1
+					if event.key == K_F1:
+						keep_on_welcome = 0	
+						level = 1
+						my_map = Map("levels/level1.txt")
+						hero = Hero(my_map)
+						guard = Guard(my_map)
+					#Lancement du niveau 2
+					elif event.key == K_F2:
+						keep_on_welcome = 0
+						level = 2
+						my_map = Map("levels/level2.txt")
+						hero = Hero(my_map)
+						guard = Guard(my_map)
+
+		if level != 0:
+			loading_background(game_window)
+			loading_path(game_window, list(my_map.path))
+			loading_hero(game_window, list(hero.position))
+			loading_guard(game_window, list(guard.position))
+
+		while keep_on_game:
+
+			for event in pygame.event.get():   #On parcours la liste de tous les événements reçus
+				if event.type == QUIT or event.type == KEYDOWN and event.key == K_ESCAPE:     #Si un de ces événements est de type QUIT
+					keep_on_game = 0      #On arrête la boucle
+					keep_on = 0
+				elif event.type == KEYDOWN:
+					if event.key == K_RIGHT:
+						hero.move()
+						pygame.display.flip()
+					elif event.key == K_LEFT:
+						hero.move.left()
+						pygame.display.flip()
+					elif event.key == K_UP:
+						hero.move.up()
+						pygame.display.flip()
+					elif event.key == K_DOWN:
+						hero.move.down()
+						pygame.display.flip()
+
+		
 
 #Function for loading background
-def loading_background(window, x_position, y_position):
+def loading_background(window):
 	game_background = pygame.image.load(constants.WALL_IMG).convert()
-	window.blit(game_background, (x_position,y_position))
+	x = 0
+	y = 0
+
+	while x < constants.NUMBER_SPRITES * constants.SPRITE_SIZE:
+		while y < constants.NUMBER_SPRITES * constants.SPRITE_SIZE:
+			window.blit(game_background, (x, y))
+			y += 40
+		x += 40
+		y = 0
+
+	pygame.display.flip()
+
+def loading_path(window, list_tupples):
+	game_path = pygame.image.load(constants.PATH_IMG).convert()
+	x = 0
+	y = 0
+
+	for location in list_tupples:
+		while x < constants.NUMBER_SPRITES:
+			while y < constants.NUMBER_SPRITES:
+				if hash(location) == hash((x, y)):
+					window.blit(game_path, (x * constants.SPRITE_SIZE, y * constants.SPRITE_SIZE))
+				y += 1
+			x += 1
+			y = 0
+		x = 0
+	
+	pygame.display.flip()
+
+def loading_hero(window, list_tupples):
+	game_hero = pygame.image.load(constants.MCGYVER_IMG).convert()
+	x = 0
+	y = 0
+
+	for location in list_tupples:
+		while x < constants.NUMBER_SPRITES:
+			while y < constants.NUMBER_SPRITES:
+				if hash(location) == hash((x, y)):
+					window.blit(game_hero, (x * constants.SPRITE_SIZE, y * constants.SPRITE_SIZE))
+				y += 1
+			x += 1
+			y = 0
+		x = 0
+
+	pygame.display.flip()
+
+def loading_guard(window, list_tupples):
+	game_guard = pygame.image.load(constants.GUARD_IMG).convert()
+	x = 0
+	y = 0
+
+	for location in list_tupples:
+		while x < constants.NUMBER_SPRITES:
+			while y < constants.NUMBER_SPRITES:
+				if hash(location) == hash((x, y)):
+					window.blit(game_guard, (x * constants.SPRITE_SIZE, y * constants.SPRITE_SIZE))
+				y += 1
+			x += 1
+			y = 0
+		x = 0
+	
+	pygame.display.flip()
+
 
 #Function for loading a character or an object
 def loading_character_object(window, x_position, y_position, character_object_file):
