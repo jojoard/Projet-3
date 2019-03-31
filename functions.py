@@ -22,35 +22,35 @@ def load_pygame():
 	keep_on = 1
 	while keep_on:
 
-		#Chargement et affichage de l'écran d'accueil
+		#Loading the welcome screen
 		welcome = pygame.image.load(constants.WELCOME_IMG).convert()
 		game_window.blit(welcome, (88,153))
 
-		#Rafraichissement
+		#Screen refresh
 		pygame.display.flip()
 
-		#On remet ces variables à 1 à chaque tour de boucle
+		#Constants
 		keep_on_welcome = 1
 		keep_on_game = 1
 		level = 0
-		
+
 		while keep_on_welcome:
-			pygame.time.Clock().tick(30)
+
 			for event in pygame.event.get():
-				if event.type == QUIT or event.type == KEYDOWN and event.key == K_ESCAPE:     #Si un de ces événements est de type QUIT
-					keep_on_game = 0      #On arrête la boucle
+				if event.type == QUIT or event.type == KEYDOWN and event.key == K_ESCAPE:
+					keep_on_game = 0      #Stop the loop
 					keep_on_welcome = 0
 					keep_on = 0
 					
 				elif event.type == KEYDOWN:				
-					#Lancement du niveau 1
+					#Loading the level 1
 					if event.key == K_F1:
 						keep_on_welcome = 0	
 						level = 1
 						my_map = Map("levels/level1.txt")
 						hero = Hero(my_map)
 						guard = Guard(my_map)
-					#Lancement du niveau 2
+					#Loading the level 2
 					elif event.key == K_F2:
 						keep_on_welcome = 0
 						level = 2
@@ -58,17 +58,19 @@ def load_pygame():
 						hero = Hero(my_map)
 						guard = Guard(my_map)
 
-		if level != 0:
+
+		if level != 0: #To be sure there is a level selected
 			loading_background(game_window)
 			loading_path(game_window, list(my_map.path))
 			loading_hero(game_window, list(hero.position))
 			loading_guard(game_window, list(guard.position))
 
+
 		while keep_on_game:
 
-			for event in pygame.event.get():   #On parcours la liste de tous les événements reçus
-				if event.type == QUIT or event.type == KEYDOWN and event.key == K_ESCAPE:     #Si un de ces événements est de type QUIT
-					keep_on_game = 0      #On arrête la boucle
+			for event in pygame.event.get():   
+				if event.type == QUIT or event.type == KEYDOWN and event.key == K_ESCAPE:
+					keep_on_game = 0
 					keep_on = 0
 				elif event.type == KEYDOWN:
 					if event.key == K_RIGHT:
@@ -83,8 +85,6 @@ def load_pygame():
 					elif event.key == K_DOWN:
 						hero.move.down()
 						pygame.display.flip()
-
-		
 
 #Function for loading background
 def loading_background(window):
@@ -151,7 +151,6 @@ def loading_guard(window, list_tupples):
 		x = 0
 	
 	pygame.display.flip()
-
 
 #Function for loading a character or an object
 def loading_character_object(window, x_position, y_position, character_object_file):
