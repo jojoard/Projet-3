@@ -1,4 +1,5 @@
 import variables as constants
+import random
 
 class Hero:
 	"""docstring for Hero"""
@@ -51,9 +52,22 @@ class Guard:
 		
 class Object:
 	"""docstring for Object"""
-	def __init__(self, arg):
-		super(Object, self).__init__()
-		self.arg = arg
+	def __init__(self, map):
+		self.map = map
+		self.list_positions = list(self.map.path)
+
+		for location in self.list_positions:
+			for loc in list(self.map.start):
+				if hash(location) == hash(loc):
+					self.list_positions.remove(location)
+
+		for location in self.list_positions:
+			for loc in list(self.map.arrival):
+				if hash(location) == hash(loc):
+					self.list_positions.remove(location)
+
+		self.position = random.choice(self.list_positions)
+
 		
 class Map:
 	"""docstring for Map"""

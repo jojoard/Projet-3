@@ -50,13 +50,7 @@ def load_pygame():
 						my_map = Map("levels/level1.txt")
 						hero = Hero(my_map)
 						guard = Guard(my_map)
-					#Loading the level 2
-					elif event.key == K_F2:
-						keep_on_welcome = 0
-						level = 2
-						my_map = Map("levels/level2.txt")
-						hero = Hero(my_map)
-						guard = Guard(my_map)
+						ether = Object(my_map)
 
 
 		if level != 0: #To be sure there is a level selected
@@ -64,7 +58,7 @@ def load_pygame():
 			loading_path(game_window, list(my_map.path))
 			loading_hero(game_window, list(hero.position))
 			loading_guard(game_window, list(guard.position))
-
+			loading_object(game_window, ether.position, constants.ETHER_IMG)
 
 		while keep_on_game:
 
@@ -101,12 +95,12 @@ def loading_background(window):
 
 	pygame.display.flip()
 
-def loading_path(window, list_tupples):
+def loading_path(window, list_tuples):
 	game_path = pygame.image.load(constants.PATH_IMG).convert()
 	x = 0
 	y = 0
 
-	for location in list_tupples:
+	for location in list_tuples:
 		while x < constants.NUMBER_SPRITES:
 			while y < constants.NUMBER_SPRITES:
 				if hash(location) == hash((x, y)):
@@ -118,12 +112,12 @@ def loading_path(window, list_tupples):
 	
 	pygame.display.flip()
 
-def loading_hero(window, list_tupples):
-	game_hero = pygame.image.load(constants.MCGYVER_IMG).convert()
+def loading_hero(window, list_tuples):
+	game_hero = pygame.image.load(constants.MCGYVER_IMG).convert_alpha()
 	x = 0
 	y = 0
 
-	for location in list_tupples:
+	for location in list_tuples:
 		while x < constants.NUMBER_SPRITES:
 			while y < constants.NUMBER_SPRITES:
 				if hash(location) == hash((x, y)):
@@ -135,12 +129,12 @@ def loading_hero(window, list_tupples):
 
 	pygame.display.flip()
 
-def loading_guard(window, list_tupples):
-	game_guard = pygame.image.load(constants.GUARD_IMG).convert()
+def loading_guard(window, list_tuples):
+	game_guard = pygame.image.load(constants.GUARD_IMG).convert_alpha()
 	x = 0
 	y = 0
 
-	for location in list_tupples:
+	for location in list_tuples:
 		while x < constants.NUMBER_SPRITES:
 			while y < constants.NUMBER_SPRITES:
 				if hash(location) == hash((x, y)):
@@ -153,9 +147,19 @@ def loading_guard(window, list_tupples):
 	pygame.display.flip()
 
 #Function for loading a character or an object
-def loading_character_object(window, x_position, y_position, character_object_file):
-	game_character_object = pygame.image.load(character_object_file).convert_alpha()
-	window.blit(game_character_object, (x_position,y_position))
+def loading_object(window, list_tuples, object_file):
+	game_object = pygame.image.load(object_file).convert_alpha()
+	x = 0
+	y = 0
+
+	while x < constants.NUMBER_SPRITES:
+		while y < constants.NUMBER_SPRITES:
+			if hash(list_tuples) == hash((x, y)):
+				window.blit(game_object, (x * constants.SPRITE_SIZE, y * constants.SPRITE_SIZE))
+			y += 1
+		x += 1
+		y = 0
+	x = 0
 
 
 	
