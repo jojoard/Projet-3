@@ -3,15 +3,63 @@ import random
 
 class Hero:
 	"""docstring for Hero"""
-	def __init__(self, map):
+	def __init__(self, map, picture):
 		self.map = map
+		self.picture = picture
 		self.position = self.map.start
+		self.win = False
 
 	def move(self, direction):
-		"""getattr() can access an object property using a string"""
-		new_position = getattr(self.position, direction)()
+		x = 0
+		y = 0
+
+		if direction == 'left':
+			for location in list(self.position):
+				while x < constants.NUMBER_SPRITES:
+					while y < constants.NUMBER_SPRITES:
+						if hash(location) == hash((x, y)):
+							new_position = Position(x-1, y)
+						y += 1
+					x += 1
+					y = 0
+				x = 0
+		elif direction == 'right':
+			for location in list(self.position):
+				while x < constants.NUMBER_SPRITES:
+					while y < constants.NUMBER_SPRITES:
+						if hash(location) == hash((x, y)):
+							new_position = Position(x+1, y)
+						y += 1
+					x += 1
+					y = 0
+				x = 0
+		elif direction == 'up':
+			for location in list(self.position):
+				while x < constants.NUMBER_SPRITES:
+					while y < constants.NUMBER_SPRITES:
+						if hash(location) == hash((x, y)):
+							new_position = Position(x, y-1)
+						y += 1
+					x += 1
+					y = 0
+				x = 0
+		elif direction == 'down':
+			for location in list(self.position):
+				while x < constants.NUMBER_SPRITES:
+					while y < constants.NUMBER_SPRITES:
+						if hash(location) == hash((x, y)):
+							new_position = Position(x, y+1)	
+						y += 1
+					x += 1
+					y = 0
+				x = 0
+
 		if new_position in self.map:
-			self.position = new_position
+				self.position = {new_position}
+
+		if self.position == self.map.arrival:
+			self.win = True
+
 		
 class Position:
 	"""Give the position"""
@@ -45,15 +93,17 @@ class Position:
 		
 class Guard:
 	"""docstring for Guard"""
-	def __init__(self, map):
+	def __init__(self, map, picture):
 		self.map = map
+		self.picture = picture
 		self.position = self.map.arrival
 
 		
 class Object:
 	"""docstring for Object"""
-	def __init__(self, map):
+	def __init__(self, map, picture):
 		self.map = map
+		self.picture = picture
 		self.list_positions = list(self.map.path)
 
 		for location in self.list_positions:
@@ -66,7 +116,11 @@ class Object:
 				if hash(location) == hash(loc):
 					self.list_positions.remove(location)
 
-		self.position = random.choice(self.list_positions)
+		self.position = set()
+		my_position = random.choice(self.list_positions)
+		self.position.add(my_position)
+
+		self.collected = False
 
 		
 class Map:
