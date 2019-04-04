@@ -7,7 +7,8 @@ class Hero:
 		self.map = map
 		self.picture = picture
 		self.position = self.map.start
-		self.win = False
+		self.win = 0 #0 = Null, 1 = Win, 2 = Loose
+		self.objects_collected = False
 
 	def move(self, direction):
 		x = 0
@@ -57,9 +58,11 @@ class Hero:
 		if new_position in self.map:
 				self.position = {new_position}
 
-		if self.position == self.map.arrival:
-			self.win = True
-
+		"""win = 1 if the player wins and win = 2 if the player looses"""
+		if self.position == self.map.arrival and self.objects_collected == True:
+			self.win = 1
+		elif self.position == self.map.arrival and self.objects_collected == False:
+			self.win = 2
 		
 class Position:
 	"""Give the position"""
@@ -153,3 +156,17 @@ class Map:
 						self.path.add(Position(x, y))
 
 
+class Counter:
+	"""docstring for Counter"""
+	def __init__(self, counter):
+		self.counter = counter
+
+	def count(self):
+		if self.counter == 3:
+			return constants.THREE
+		elif self.counter == 2:
+			return constants.TWO
+		elif self.counter == 1:
+			return constants.ONE
+		elif self.counter == 0:
+			return constants.ZERO

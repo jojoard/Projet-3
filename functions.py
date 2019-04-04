@@ -6,6 +6,7 @@ from pygame.locals import *
 import variables as constants
 from classes import *
 
+
 #Loading the game
 def load_pygame():
 	#Initialization of PyGame library
@@ -47,23 +48,24 @@ def load_pygame():
 					if event.key == K_F1:
 						keep_on_welcome = 0	
 						level = 1
-						my_map = Map("levels/level1.txt")
-						hero = Hero(my_map, constants.MCGYVER_IMG)
-						guard = Guard(my_map, constants.GUARD_IMG)
-						ether = Object(my_map, constants.ETHER_IMG)
-						tube = Object(my_map, constants.TUBE_IMG)
-						needle = Object(my_map, constants.NEEDLE_IMG)
+						
 
 		if level != 0: #To be sure there is a level selected
+			my_map = Map("levels/level1.txt")
+			hero = Hero(my_map, constants.MCGYVER_IMG)
+			guard = Guard(my_map, constants.GUARD_IMG)
+			ether = Object(my_map, constants.ETHER_IMG)
+			tube = Object(my_map, constants.TUBE_IMG)
+			needle = Object(my_map, constants.NEEDLE_IMG)
+			counter_objects = Counter(3)
 			loading_background(game_window)
 			loading_path(game_window, list(my_map.path))
+			picking_object(hero, ether, tube, needle, game_window, counter_objects)
 			loading_character(game_window, hero)
 			loading_character(game_window, guard)
 			loading_object(game_window, ether)
 			loading_object(game_window, tube)
 			loading_object(game_window, needle)
-			#game_object = pygame.image.load(constants.NEEDLE_IMG).convert_alpha()
-			#game_window.blit(game_object, (1 * 40 , 2 * 40))
 
 		while keep_on_game:
 
@@ -75,56 +77,81 @@ def load_pygame():
 				elif event.type == KEYDOWN:
 					if event.key == K_RIGHT:
 						hero.move('right')
+						loading_background(game_window)
 						loading_path(game_window, list(my_map.path))
+						picking_object(hero, ether, tube, needle, game_window, counter_objects)
 						loading_character(game_window, hero)
 						loading_character(game_window, guard)
 						loading_object(game_window, ether)
 						loading_object(game_window, tube)
 						loading_object(game_window, needle)
-						if hero.win == True:
+						if hero.win == 1:
 							game_window.fill((0,0,0)) #Erase the background
 							winner = pygame.image.load(constants.WINNER_IMG).convert()
 							game_window.blit(winner, (6, 200))
+						elif hero.win == 2:
+							game_window.fill((0,0,0)) #Erase the background
+							looser = pygame.image.load(constants.GAME_OVER_IMG).convert()
+							game_window.blit(looser, (6, 200))
 						pygame.display.flip()
 					elif event.key == K_LEFT:
 						hero.move('left')
+						loading_background(game_window)
 						loading_path(game_window, list(my_map.path))
+						picking_object(hero, ether, tube, needle, game_window, counter_objects)
 						loading_character(game_window, hero)
 						loading_character(game_window, guard)
 						loading_object(game_window, ether)
 						loading_object(game_window, tube)
 						loading_object(game_window, needle)
-						if hero.win == True:
+						if hero.win == 1:
 							game_window.fill((0,0,0)) #Erase the background
 							winner = pygame.image.load(constants.WINNER_IMG).convert()
 							game_window.blit(winner, (6, 200))
+						elif hero.win == 2:
+							game_window.fill((0,0,0)) #Erase the background
+							looser = pygame.image.load(constants.GAME_OVER_IMG).convert()
+							game_window.blit(looser, (6, 200))
 						pygame.display.flip()
 					elif event.key == K_UP:
 						hero.move('up')
+						loading_background(game_window)
 						loading_path(game_window, list(my_map.path))
+						picking_object(hero, ether, tube, needle, game_window, counter_objects)
 						loading_character(game_window, hero)
 						loading_character(game_window, guard)
 						loading_object(game_window, ether)
 						loading_object(game_window, tube)
 						loading_object(game_window, needle)
-						if hero.win == True:
+						if hero.win == 1:
 							game_window.fill((0,0,0)) #Erase the background
 							winner = pygame.image.load(constants.WINNER_IMG).convert()
 							game_window.blit(winner, (6, 200))
+						elif hero.win == 2:
+							game_window.fill((0,0,0)) #Erase the background
+							looser = pygame.image.load(constants.GAME_OVER_IMG).convert()
+							game_window.blit(looser, (6, 200))
 						pygame.display.flip()
 					elif event.key == K_DOWN:
 						hero.move('down')
+						loading_background(game_window)
 						loading_path(game_window, list(my_map.path))
+						picking_object(hero, ether, tube, needle, game_window, counter_objects)
 						loading_character(game_window, hero)
 						loading_character(game_window, guard)
 						loading_object(game_window, ether)
 						loading_object(game_window, tube)
 						loading_object(game_window, needle)
-						if hero.win == True:
+						if hero.win == 1:
 							game_window.fill((0,0,0)) #Erase the background
 							winner = pygame.image.load(constants.WINNER_IMG).convert()
 							game_window.blit(winner, (6, 200))
+						elif hero.win == 2:
+							game_window.fill((0,0,0)) #Erase the background
+							looser = pygame.image.load(constants.GAME_OVER_IMG).convert()
+							game_window.blit(looser, (6, 200))
 						pygame.display.flip()
+
 
 #Function for loading background
 def loading_background(window):
@@ -194,3 +221,22 @@ def loading_object(window, object_to_load):
 			x = 0
 		pygame.display.flip()
 
+def picking_object(hero, ether, tube, needle, window, counter):
+	if hero.position == ether.position:
+		if ether.collected == False:
+			counter.counter -= 1
+		ether.collected = True
+	elif hero.position == tube.position:
+		if tube.collected == False:
+			counter.counter -= 1
+		tube.collected = True
+	elif hero.position == needle.position:
+		if needle.collected == False:
+			counter.counter -= 1
+		needle.collected = True
+
+	if ether.collected == True and tube.collected == True and needle.collected == True:
+		hero.objects_collected = True
+
+	counter_picture = pygame.image.load(counter.count()).convert_alpha()
+	window.blit(counter_picture, (0, 0))
