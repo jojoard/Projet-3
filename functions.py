@@ -20,6 +20,7 @@ def load_pygame():
 	#Title
 	pygame.display.set_caption(constants.WINDOW_TITLE)	
 
+	#Infinite loop
 	keep_on = 1
 	while keep_on:
 
@@ -31,8 +32,8 @@ def load_pygame():
 		pygame.display.flip()
 
 		#Constants
-		keep_on_welcome = 1
-		keep_on_game = 1
+		keep_on_welcome = 1 #To keep on the welcome page
+		keep_on_game = 1 #To keep on the game page
 		level = 0
 
 		while keep_on_welcome:
@@ -51,13 +52,14 @@ def load_pygame():
 						
 
 		if level != 0: #To be sure there is a level selected
+			"""Creating the different objects and loading the pictures of the game"""
 			my_map = Map("levels/level1.txt")
 			hero = Hero(my_map, constants.MCGYVER_IMG)
 			guard = Guard(my_map, constants.GUARD_IMG)
 			ether = Object(my_map, constants.ETHER_IMG)
 			tube = Object(my_map, constants.TUBE_IMG)
 			needle = Object(my_map, constants.NEEDLE_IMG)
-			counter_objects = Counter(3)
+			counter_objects = Counter()
 			loading_background(game_window)
 			loading_path(game_window, list(my_map.path))
 			picking_object(hero, ether, tube, needle, game_window, counter_objects)
@@ -76,7 +78,7 @@ def load_pygame():
 					game_window.fill((0,0,0)) #Erase the background
 				elif event.type == KEYDOWN:
 					if event.key == K_RIGHT:
-						hero.move('right')
+						hero.move('right') #If the hero moves on the right
 						loading_background(game_window)
 						loading_path(game_window, list(my_map.path))
 						picking_object(hero, ether, tube, needle, game_window, counter_objects)
@@ -85,11 +87,11 @@ def load_pygame():
 						loading_object(game_window, ether)
 						loading_object(game_window, tube)
 						loading_object(game_window, needle)
-						if hero.win == 1:
+						if hero.win == 1: #If the player wins
 							game_window.fill((0,0,0)) #Erase the background
 							winner = pygame.image.load(constants.WINNER_IMG).convert()
 							game_window.blit(winner, (6, 200))
-						elif hero.win == 2:
+						elif hero.win == 2: #If the player looses
 							game_window.fill((0,0,0)) #Erase the background
 							looser = pygame.image.load(constants.GAME_OVER_IMG).convert()
 							game_window.blit(looser, (6, 200))

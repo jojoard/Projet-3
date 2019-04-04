@@ -158,8 +158,8 @@ class Map:
 
 class Counter:
 	"""docstring for Counter"""
-	def __init__(self, counter):
-		self.counter = counter
+	def __init__(self):
+		self.counter = 3
 
 	def count(self):
 		if self.counter == 3:

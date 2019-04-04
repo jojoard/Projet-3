@@ -1,5 +1,6 @@
 """Constants of the game"""
 
+#Constants for the labyrinth
 START_CHAR = "S"
 ARRIVAL_CHAR = "A"
 PATH_CHAR = "."
@@ -10,7 +11,7 @@ SPRITE_SIZE = 40
 NUMBER_SPRITES = 15
 
 
-WINDOW_TITLE = "Tile Cruisader"
+WINDOW_TITLE = "McGyver Tile Cruisader"
 ICON_IMG = "ressources/MacGyver2.png"
 
 
