@@ -78,22 +78,6 @@ class Position:
 	def __eq__(self, pos):
 		return self.position == pos.position
 
-	def up(self):
-		x, y = self.position
-		return Position(x-1, y)
-
-	def down(self):
-		x, y = self.position
-		return Position(x+1, y)
-
-	def right(self):
-		x, y = self.position
-		return Position(x, y+1)
-
-	def left(self):
-		x, y = self.position
-		return Position(x, y-1)
-		
 class Guard:
 	"""docstring for Guard"""
 	def __init__(self, map, picture):

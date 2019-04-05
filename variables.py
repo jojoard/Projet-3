@@ -29,3 +29,5 @@ THREE = "ressources/3.png"
 TWO = "ressources/2.png"
 ONE = "ressources/1.png"
 ZERO = "ressources/0.png"
+
+SOUND = "ressources/musique.wav"

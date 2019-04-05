@@ -20,6 +20,9 @@ def load_pygame():
 	#Title
 	pygame.display.set_caption(constants.WINDOW_TITLE)	
 
+	#Sound
+	sound = pygame.mixer.Sound(constants.SOUND)
+
 	#Infinite loop
 	keep_on = 1
 	while keep_on:
@@ -36,6 +39,8 @@ def load_pygame():
 		keep_on_game = 1 #To keep on the game page
 		level = 0
 
+		sound.play()
+
 		while keep_on_welcome:
 
 			for event in pygame.event.get():
@@ -43,6 +48,7 @@ def load_pygame():
 					keep_on_game = 0      #Stop the loop
 					keep_on_welcome = 0
 					keep_on = 0
+					sound.stop()
 					
 				elif event.type == KEYDOWN:				
 					#Loading the level 1
