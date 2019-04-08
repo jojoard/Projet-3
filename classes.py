@@ -15,20 +15,13 @@ class Hero:
 		y = 0
 
 		if direction == 'left':
-			for location in list(self.position):
-				while x < constants.NUMBER_SPRITES:
-					while y < constants.NUMBER_SPRITES:
-						if hash(location) == hash((x, y)):
-							new_position = Position(x-1, y)
-						y += 1
-					x += 1
-					y = 0
-				x = 0
+			new_position = Position(list(self.position)[0].position[0]-1, list(self.position)[0].position[1])
+
 		elif direction == 'right':
 			for location in list(self.position):
 				while x < constants.NUMBER_SPRITES:
 					while y < constants.NUMBER_SPRITES:
-						if hash(location) == hash((x, y)):
+						if location == (x, y):
 							new_position = Position(x+1, y)
 						y += 1
 					x += 1
@@ -70,13 +63,13 @@ class Position:
 		self.position = (x, y)
 
 	def __repr__(self):
-		return str(self.position)
+		return self.position
 
 	def __hash__(self):
 		return hash(self.position)
 
 	def __eq__(self, pos):
-		return self.position == pos.position
+		return self.position == pos
 
 class Guard:
 	"""docstring for Guard"""
@@ -105,7 +98,7 @@ class Object:
 
 		self.position = set()
 		my_position = random.choice(self.list_positions)
-		self.position.add(my_position)
+		self.position.add(Position(13, 5))
 
 		self.collected = False
 
