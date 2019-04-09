@@ -11,49 +11,15 @@ class Hero:
 		self.objects_collected = False
 
 	def move(self, direction):
-		x = 0
-		y = 0
-
 		if direction == 'left':
-			for location in list(self.position):
-				while x < constants.NUMBER_SPRITES:
-					while y < constants.NUMBER_SPRITES:
-						if hash(location) == hash((x, y)):
-							new_position = Position(x-1, y)
-						y += 1
-					x += 1
-					y = 0
-				x = 0
+			#list(self.position)[0].position = (x or y)
+			new_position = Position(list(self.position)[0].position[0]-1, list(self.position)[0].position[1])
 		elif direction == 'right':
-			for location in list(self.position):
-				while x < constants.NUMBER_SPRITES:
-					while y < constants.NUMBER_SPRITES:
-						if hash(location) == hash((x, y)):
-							new_position = Position(x+1, y)
-						y += 1
-					x += 1
-					y = 0
-				x = 0
+			new_position = Position(list(self.position)[0].position[0]+1, list(self.position)[0].position[1])
 		elif direction == 'up':
-			for location in list(self.position):
-				while x < constants.NUMBER_SPRITES:
-					while y < constants.NUMBER_SPRITES:
-						if hash(location) == hash((x, y)):
-							new_position = Position(x, y-1)
-						y += 1
-					x += 1
-					y = 0
-				x = 0
+			new_position = Position(list(self.position)[0].position[0], list(self.position)[0].position[1]-1)
 		elif direction == 'down':
-			for location in list(self.position):
-				while x < constants.NUMBER_SPRITES:
-					while y < constants.NUMBER_SPRITES:
-						if hash(location) == hash((x, y)):
-							new_position = Position(x, y+1)	
-						y += 1
-					x += 1
-					y = 0
-				x = 0
+			new_position = Position(list(self.position)[0].position[0], list(self.position)[0].position[1]+1)
 
 		if new_position in self.map:
 				self.position = {new_position}
@@ -103,10 +69,15 @@ class Object:
 				if hash(location) == hash(loc):
 					self.list_positions.remove(location)
 
+		for location in self.list_positions:
+			for loc in list(self.map.objects):
+				if hash(location) == hash(loc):
+					self.list_positions.remove(location)
+
 		self.position = set()
 		my_position = random.choice(self.list_positions)
 		self.position.add(my_position)
-
+		self.map.objects.add(my_position)
 		self.collected = False
 
 		
@@ -145,7 +116,7 @@ class Counter:
 	def __init__(self):
 		self.counter = 3
 
-	def count(self):
+	def count_image(self):
 		if self.counter == 3:
 			return constants.THREE
 		elif self.counter == 2:
